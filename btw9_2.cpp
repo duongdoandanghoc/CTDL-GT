@@ -88,7 +88,6 @@ int main() {
     List fileList;  
     initList(fileList);  
 
-    // Thêm các file m?u  
     File file1 = {"file1.txt", 5000000, "2024-11-01 10:00:00"};  
     File file2 = {"file2.jpg", 3000000, "2024-10-25 12:30:00"};  
     File file3 = {"file3.pdf", 7500000, "2024-11-05 08:15:00"};  
