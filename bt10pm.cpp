@@ -2,47 +2,47 @@
 #include <stdlib.h>  
 #include <string.h>  
 
-#define MAX_CAPACITY 10 // 
+#define MAX_CAPACITY 10 // Sức chứa tối đa của mỗi loại gỗ  
 
-// C?u tr�c d? luu tr? th�ng tin v? m?t thanh g?  
+// Cấu trúc để lưu trữ thông tin về một thanh gỗ  
 typedef struct {  
-    char type[20];  // lo?i g?  
-    float size;     // k�ch thu?c  
-    int age;        // tu?i g?  
+    char type[20];  // loại gỗ  
+    float size;     // kích thước  
+    int age;        // tuổi gỗ  
 } Wood;  
 
-// C?u tr�c ngan x?p (stack) d? qu?n l� c�c thanh g?  
+// Cấu trúc ngăn xếp (stack) để quản lý các thanh gỗ  
 typedef struct {  
-    Wood woods[MAX_CAPACITY]; // M?ng ch?a c�c thanh g?  
-    int top;                  // Ch? s? c?a ph?n t? tr�n c�ng  
+    Wood woods[MAX_CAPACITY]; // Mảng chứa các thanh gỗ  
+    int top;                  // Chỉ số của phần tử trên cùng  
 } Stack;  
 
-// H�m kh?i t?o ngan x?p  
+// Hàm khởi tạo ngăn xếp  
 void initStack(Stack* stack) {  
-    stack->top = -1; // Ngan x?p r?ng  
+    stack->top = -1; // Ngăn xếp rỗng  
 }  
 
-// H�m th�m thanh g? v�o ngan x?p  
+// Hàm thêm thanh gỗ vào ngăn xếp  
 int push(Stack* stack, Wood wood) {  
     if (stack->top >= MAX_CAPACITY - 1) {  
-        printf("Kho d� d?y, kh�ng th? th�m g?.\n");  
-        return 0; // Kh�ng th�nh c�ng  
+        printf("Kho đã đầy, không thể thêm gỗ.\n");  
+        return 0; // Không thành công  
     }  
-    stack->woods[++stack->top] = wood; // Th�m thanh g? v�o ngan x?p  
-    return 1; // Th�nh c�ng  
+    stack->woods[++stack->top] = wood; // Thêm thanh gỗ vào ngăn xếp  
+    return 1; // Thành công  
 }  
 
-// H�m l?y thanh g? ra kh?i ngan x?p  
+// Hàm lấy thanh gỗ ra khỏi ngăn xếp  
 Wood pop(Stack* stack) {  
-    Wood emptyWood = {"", 0, 0}; // Thanh g? r?ng  
+    Wood emptyWood = {"", 0, 0}; // Thanh gỗ rỗng  
     if (stack->top < 0) {  
-        printf("Ngan x?p r?ng, kh�ng th? l?y g?.\n");  
-        return emptyWood; // Tr? v? thanh g? r?ng  
+        printf("Ngăn xếp rỗng, không thể lấy gỗ.\n");  
+        return emptyWood; // Trả về thanh gỗ rỗng  
     }  
-    return stack->woods[stack->top--]; // Tr? v? thanh g? tr�n c�ng v� gi?m ch? s?  
+    return stack->woods[stack->top--]; // Trả về thanh gỗ trên cùng và giảm chỉ số  
 }  
 
-// H�m d? d?m s? lu?ng thanh g? c� c�ng tu?i g?  
+// Hàm để đếm số lượng thanh gỗ có cùng tuổi gỗ  
 int countWoodsWithSameAge(Stack* stack, int age) {  
     int count = 0;  
     for (int i = 0; i <= stack->top; i++) {  
@@ -50,70 +50,70 @@ int countWoodsWithSameAge(Stack* stack, int age) {
             count++;  
         }  
     }  
-    return count; // Tr? v? s? lu?ng thanh g? c� c�ng tu?i  
+    return count; // Trả về số lượng thanh gỗ có cùng tuổi  
 }  
 
-// H�m hi?n th? t?t c? c�c thanh g? trong kho  
+// Hàm hiển thị tất cả các thanh gỗ trong kho  
 void display(Stack* stack) {  
     if (stack->top < 0) {  
-        printf("Kho g? r?ng.\n");  
+        printf("Kho gỗ rỗng.\n");  
         return;  
     }  
-    printf("Danh s�ch c�c thanh g? trong kho:\n");  
+    printf("Danh sách các thanh gỗ trong kho:\n");  
     for (int i = 0; i <= stack->top; i++) {  
-        printf("Lo?i: %s, K�ch thu?c: %.2f, Tu?i: %d nam\n", stack->woods[i].type, stack->woods[i].size, stack->woods[i].age);  
+        printf("Loại: %s, Kích thước: %.2f, Tuổi: %d năm\n", stack->woods[i].type, stack->woods[i].size, stack->woods[i].age);  
     }  
 }  
 
 int main() {  
-    Stack woodStacks[3]; // T?o 3 ngan x?p cho c�c lo?i g?  
-    const char* woodTypes[3] = {"S?i", "Th�ng", "B?ch ��n"};  
+    Stack woodStacks[3]; // Tạo 3 ngăn xếp cho các loại gỗ  
+    const char* woodTypes[3] = {"Sồi", "Thông", "Bạch Đàn"};  
 
-    // Kh?i t?o c�c ngan x?p  
+    // Khởi tạo các ngăn xếp  
     for (int i = 0; i < 3; i++) {  
         initStack(&woodStacks[i]);  
     }  
 
-    // T?o th�ng tin cho c�c thanh g? m?u  
+    // Tạo thông tin cho các thanh gỗ mẫu  
     Wood sampleWoods[3][MAX_CAPACITY] = {  
-        {{"S?i", 5.0, 10}, {"S?i", 6.5, 10}, {"S?i", 4.2, 8}, {"S?i", 5.5, 15}, {"S?i", 6.0, 10},  
-         {"S?i", 4.7, 12}, {"S?i", 5.9, 9}, {"S?i", 7.2, 14}, {"S?i", 5.3, 10}, {"S?i", 6.1, 13}},  
-        {{"Th�ng", 3.5, 7}, {"Th�ng", 4.0, 9}, {"Th�ng", 4.8, 7}, {"Th�ng", 5.0, 8}, {"Th�ng", 3.8, 6},  
-         {"Th�ng", 4.1, 7}, {"Th�ng", 5.5, 10}, {"Th�ng", 4.6, 9}, {"Th�ng", 3.7, 6}, {"Th�ng", 4.9, 8}},  
-        {{"B?ch ��n", 2.5, 5}, {"B?ch ��n", 3.0, 4}, {"B?ch ��n", 2.8, 6}, {"B?ch ��n", 3.3, 5}, {"B?ch ��n", 2.7, 5},  
-         {"B?ch ��n", 3.1, 6}, {"B?ch ��n", 2.9, 5}, {"B?ch ��n", 3.2, 7}, {"B?ch ��n", 2.6, 4}, {"B?ch ��n", 3.4, 5}}  
+        {{"Sồi", 5.0, 10}, {"Sồi", 6.5, 10}, {"Sồi", 4.2, 8}, {"Sồi", 5.5, 15}, {"Sồi", 6.0, 10},  
+         {"Sồi", 4.7, 12}, {"Sồi", 5.9, 9}, {"Sồi", 7.2, 14}, {"Sồi", 5.3, 10}, {"Sồi", 6.1, 13}},  
+        {{"Thông", 3.5, 7}, {"Thông", 4.0, 9}, {"Thông", 4.8, 7}, {"Thông", 5.0, 8}, {"Thông", 3.8, 6},  
+         {"Thông", 4.1, 7}, {"Thông", 5.5, 10}, {"Thông", 4.6, 9}, {"Thông", 3.7, 6}, {"Thông", 4.9, 8}},  
+        {{"Bạch Đàn", 2.5, 5}, {"Bạch Đàn", 3.0, 4}, {"Bạch Đàn", 2.8, 6}, {"Bạch Đàn", 3.3, 5}, {"Bạch Đàn", 2.7, 5},  
+         {"Bạch Đàn", 3.1, 6}, {"Bạch Đàn", 2.9, 5}, {"Bạch Đàn", 3.2, 7}, {"Bạch Đàn", 2.6, 4}, {"Bạch Đàn", 3.4, 5}}  
     };  
 
-    // Th�m th�ng tin m?u v�o kho  
+    // Thêm thông tin mẫu vào kho  
     for (int i = 0; i < 3; i++) {  
         for (int j = 0; j < MAX_CAPACITY; j++) {  
-            push(&woodStacks[i], sampleWoods[i][j]); // Th�m thanh g? v�o ngan x?p  
+            push(&woodStacks[i], sampleWoods[i][j]); // Thêm thanh gỗ vào ngăn xếp  
         }  
     }  
 
-    // Hi?n th? kho g? c?a t?ng lo?i  
+    // Hiển thị kho gỗ của từng loại  
     for (int i = 0; i < 3; i++) {  
-        printf("\nKho g? %s:\n", woodTypes[i]);  
+        printf("\nKho gỗ %s:\n", woodTypes[i]);  
         display(&woodStacks[i]);  
     }  
 
-    // �?m s? lu?ng thanh g? c� c�ng tu?i g?  
+    // Đếm số lượng thanh gỗ có cùng tuổi gỗ  
     int age;  
     printf("\nNhap tuoi go muon dem: ");  
     scanf("%d", &age);  
     for (int i = 0; i < 3; i++) {  
         int count = countWoodsWithSameAge(&woodStacks[i], age);  
-        printf("So luong thanh g? %s co cung tuoi %d la: %d\n", woodTypes[i], age, count);  
+        printf("So luong thanh gỗ %s co cung tuoi %d la: %d\n", woodTypes[i], age, count);  
     }  
 
-    // L?y g? ra kh?i kho  
+    // Lấy gỗ ra khỏi kho  
     for (int i = 0; i < 3; i++) {  
-        printf("\nLay thanh g? ra kho %s:\n", woodTypes[i]);  
+        printf("\nLay thanh gỗ ra kho %s:\n", woodTypes[i]);  
         Wood removedWood = pop(&woodStacks[i]);  
-        if (removedWood.size != 0.0) { // Ki?m tra n?u c� thanh g? du?c l?y  
-            printf("Da lay thanh g?: Loai: %s, Kich thuoc: %.2f, Tuoi: %d nam\n", removedWood.type, removedWood.size, removedWood.age);  
+        if (removedWood.size != 0.0) { // Kiểm tra nếu có thanh gỗ được lấy  
+            printf("Da lay thanh gỗ: Loai: %s, Kich thuoc: %.2f, Tuoi: %d năm\n", removedWood.type, removedWood.size, removedWood.age);  
         }  
-        printf("Kho g? sau khi l?y g? ra:\n");  
+        printf("Kho gỗ sau khi lấy gỗ ra:\n");  
         display(&woodStacks[i]);  
     }  
 
